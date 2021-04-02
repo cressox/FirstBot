@@ -1,5 +1,5 @@
 import pickle
-
+# sdfk
 def key_words(sentence):
     keys = ["gutschein", "Gutschein", "rabatt", "Rabatt", "Code", "code"]
     # filtert nach worten die in keys stehen #
