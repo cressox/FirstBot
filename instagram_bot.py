@@ -132,13 +132,15 @@ class InstagramBot():
                 all_posts[i].click()
                 name = self.wait_for_object(By.CSS_SELECTOR, "a.sqdOP.yWX7d._8A5w5.ZIAjV").text
                 text = self.wait_for_object(By.CSS_SELECTOR, ".C4VMK > span").text
+                link = self.browser.current_url
+                print(link)
 
                 data = pickle.load(open("instaData.txt", "rb"))
 
                 if name in data:
-                    data[name][f"{i+1}"] = text
+                    data[name][f"{i+1}"] = [link, text]
                 else:
-                    data[name] = {"1":text}
+                    data[name] = {"1":[link, text]}
 
                 pickle.dump(data, open("instaData.txt", "wb"))
                 # self.WaitForObject(By.CSS_SELECTOR, "[aria-label='Gefällt mir']").click()
