@@ -75,21 +75,24 @@ class InstagramBot():
         storys = self.wait_for_objects(By.CSS_SELECTOR, "button.OE3OK")
         if len(storys):
             storys[0].click()
-
+            time.sleep(5)
             def open_storys():
                 try:
                     self.wait_for_object(By.CSS_SELECTOR, "button.FhutL").click()
                     time.sleep(3)
 
                     try:
-                        swipeUps.append(self.wait_for_object(By.CSS_SELECTOR, "div.HDsRl"))
+                        swipeUps.append(self.wait_for_object(By.CSS_SELECTOR, "div.HDsRl")._parent.current_url)
+                        print("swipe up")
+                        return
 
                     except:
-                        pass
+                        print("no swipe up")
 
                     open_storys()
 
                 except:
+                    print("no button to right click")
                     return
 
             open_storys()
@@ -129,6 +132,7 @@ class InstagramBot():
                 post.click()
                 name = self.wait_for_object(By.CSS_SELECTOR, "a.sqdOP.yWX7d._8A5w5.ZIAjV").text
                 text = self.wait_for_object(By.CSS_SELECTOR, ".C4VMK > span").text
+
                 data = pickle.load(open("instaData.txt", "rb"))
 
                 if name in data:
@@ -148,24 +152,29 @@ class InstagramBot():
         pickle.dump({}, open("instaData.txt", "wb"))
         # setzt alle beschreibungen zurück #
 
-count, runBot = 0, True
-
-Bot = InstagramBot("klaus_muenster", "#8:D~Tqx#:Gux&t")
-Bot.login()
-Bot.reset_data()
 #Bot.SearchHashtag("gutschein")
+
+def stuff():
+    influencer = pickle.load(open("influencer.txt", "rb"))
+    for name in [i for i in influencer]:
+        try:
+            Bot.check_posts(name)
+            #time.sleep(10)
+        except:
+            continue
+
+#Bot = InstagramBot("klaus_muenster", "#8:D~Tqx#:Gux&t")
+Bot = InstagramBot("paul_spachtel", "v$2E94gA3cvF&Xx")
+
 #swipes = Bot.check_storys()
 #pickle.dump(swipes, open("swipe_ups.txt", "wb"))
 
+Bot.login()
+Bot.reset_data()
+#links = Bot.check_storys()
+#pickle.dump(links, open("links.txt", "wb"))
 
-
-for name in [i for i in "mileycyrus virat.kohli leomessi jlo selenagomez beyonce".split()]:
-    try:
-        Bot.check_posts(name)
-        time.sleep(10)
-
-    except:
-        continue
+stuff()
 
 Bot.browser.close()
 pickle.dump(Bot.error_log, open("error_log.txt", "wb"))
