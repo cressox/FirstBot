@@ -37,7 +37,7 @@ class InstagramBot():
         fensterThree = self.wait_for_object(By.CSS_SELECTOR, "button.aOOlW.HoLwm").click()
         # notification on #
 
-    def SearchHashtag(self, hashtag):
+    def Search_hashtag(self, hashtag):
         search_entry = self.wait_for_object(By.CSS_SELECTOR, "input.XTCLo.x3qfX")
         search_entry.send_keys(f"#{hashtag}")
 
@@ -154,7 +154,9 @@ class InstagramBot():
         pickle.dump({}, open("instaData.txt", "wb"))
         # setzt alle beschreibungen zurück #
 
-#Bot.SearchHashtag("gutschein")
+
+
+#Bot.Search_hashtag("gutschein")
 
 def stuff():
     influencer = pickle.load(open("influencer.txt", "rb"))
@@ -165,8 +167,8 @@ def stuff():
         except:
             continue
 
-#Bot = InstagramBot("klaus_muenster", "#8:D~Tqx#:Gux&t")
-Bot = InstagramBot("paul_spachtel", "v$2E94gA3cvF&Xx")
+Bot = InstagramBot("name", "pw")
+# account
 
 Bot.login()
 Bot.reset_data()
