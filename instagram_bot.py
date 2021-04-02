@@ -127,18 +127,18 @@ class InstagramBot():
         try:
             all_posts = self.wait_for_objects(By.CSS_SELECTOR, "div.v1Nh3.kIKUG._bz0w")
 
-            for post in all_posts[:3]:
+            for i in range(len(all_posts[:3])):
                 # geht neusten 3 bilder durch #
-                post.click()
+                all_posts[i].click()
                 name = self.wait_for_object(By.CSS_SELECTOR, "a.sqdOP.yWX7d._8A5w5.ZIAjV").text
                 text = self.wait_for_object(By.CSS_SELECTOR, ".C4VMK > span").text
 
                 data = pickle.load(open("instaData.txt", "rb"))
 
                 if name in data:
-                    data[name] += f"{text}\n"
+                    data[name][f"{i+1}"] = text
                 else:
-                    data[name] = f"{text}\n"
+                    data[name] = {"1":text}
 
                 pickle.dump(data, open("instaData.txt", "wb"))
                 # self.WaitForObject(By.CSS_SELECTOR, "[aria-label='Gefällt mir']").click()
@@ -166,11 +166,9 @@ def stuff():
 #Bot = InstagramBot("klaus_muenster", "#8:D~Tqx#:Gux&t")
 Bot = InstagramBot("paul_spachtel", "v$2E94gA3cvF&Xx")
 
-#swipes = Bot.check_storys()
-#pickle.dump(swipes, open("swipe_ups.txt", "wb"))
-
 Bot.login()
 Bot.reset_data()
+
 #links = Bot.check_storys()
 #pickle.dump(links, open("links.txt", "wb"))
 
