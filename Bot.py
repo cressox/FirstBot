@@ -257,4 +257,3 @@ class InstagramBot:
                 log = pickle.load(open("error_log.txt", "rb"))
                 log.append(f"{time.strftime('%H:%M:%S')}\tCant open '[aria-label='Schließen']'\n")
                 pickle.dump(log, open("error_log.txt", "wb"))
-                return
