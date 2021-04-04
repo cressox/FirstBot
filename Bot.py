@@ -44,7 +44,7 @@ class InstagramBot:
     def reset_data(self, data):
         pickle.dump({}, open(f"{data}.json", "wb"))        
 
-    def search_hashtag(self, hashtag, mode="like"):
+    def search_hashtag(self, hashtag, mode="like", sum=7):
         try:
             self.browser.get("https://www.instagram.com/")
 
@@ -75,7 +75,7 @@ class InstagramBot:
             all_photos = self.wait_for_objects(By.CSS_SELECTOR, "div.v1Nh3.kIKUG._bz0w")
             time.sleep(5)
 
-            for i in range(len(all_photos[:7])):
+            for i in range(len(all_photos[:sum])):
                 try:
                     all_photos[i].click()
 
@@ -152,37 +152,38 @@ class InstagramBot:
         try:
             storys = self.wait_for_objects(By.CSS_SELECTOR, "button.OE3OK")
 
-        except:
-            pass
+            if len(storys):
+                storys[0].click()
+                time.sleep(5)
 
-
-        if len(storys):
-            storys[0].click()
-            time.sleep(5)
-
-            def open_storys(num=0):
-                try:
-                    self.wait_for_object(By.CSS_SELECTOR, "button.FhutL").click()
-                    # time.sleep(3)
-
+                def open_storys(num=0):
                     try:
-                        swipe_obj = self.wait_for_object(By.CSS_SELECTOR, "div.HDsRl")
-                        swipeUps.append(swipe_obj._parent.current_url)
-                        print(f"Storys checked: {num} Result: swipe up")
+                        self.wait_for_object(By.CSS_SELECTOR, "button.FhutL").click()
+                        # time.sleep(3)
+
+                        try:
+                            swipe_obj = self.wait_for_object(By.CSS_SELECTOR, "div.HDsRl")
+                            swipeUps.append(swipe_obj._parent.current_url)
+                            print(f"Storys checked: {num} Result: swipe up")
+
+                        except:
+                            print(f"Storys checked: {num} Result: NO swipe up")
+
+                        open_storys(num + 1)
 
                     except:
-                        print(f"Storys checked: {num} Result: NO swipe up")
+                        log = pickle.load(open("error_log.txt", "rb"))
+                        log.append(f"{time.strftime('%H:%M:%S')}\tNo button to right click in Storys\n")
+                        pickle.dump(log, open("error_log.txt", "wb"))
 
-                    open_storys(num+1)
+                open_storys()
 
-                except:
-                    log = pickle.load(open("error_log.txt", "rb"))
-                    log.append(f"{time.strftime('%H:%M:%S')}\tNo button to right click in Storys\n")
-                    pickle.dump(log, open("error_log.txt", "wb"))
-                    
-            open_storys()
+                pickle.dump(set(swipeUps), open("storys.json", "wb"))
 
-            pickle.dump(set(swipeUps), open("storys.json", "wb"))
+        except:
+            log = pickle.load(open("error_log.txt", "rb"))
+            log.append(f"{time.strftime('%H:%M:%S')}\tNo Storys to check\n")
+            pickle.dump(log, open("error_log.txt", "wb"))
 
     def follow(self, name):
         self.browser.get(f"https://www.instagram.com/{name}/")
@@ -211,7 +212,7 @@ class InstagramBot:
         time.sleep(3)
         self.wait_for_object(By.CSS_SELECTOR, "button.aOOlW.-Cab_").click()
 
-    def check_posts(self, name):
+    def check_posts(self, name, sum=3):
         try:
             self.browser.get(f"https://www.instagram.com/{name}/")
             # öffnet seite des influencer #
@@ -224,7 +225,7 @@ class InstagramBot:
 
         all_posts = self.wait_for_objects(By.CSS_SELECTOR, "div.v1Nh3.kIKUG._bz0w")
 
-        for i in range(len(all_posts[:3])):
+        for i in range(len(all_posts[:sum])):
             # geht neusten 3 bilder durch #
             all_posts[i].click()
             try:
@@ -256,15 +257,3 @@ class InstagramBot:
                 log = pickle.load(open("error_log.txt", "rb"))
                 log.append(f"{time.strftime('%H:%M:%S')}\tCant open '[aria-label='Schließen']'\n")
                 pickle.dump(log, open("error_log.txt", "wb"))
-                return
-
-Bot = InstagramBot("usrname", "pw")
-Bot.login()
-
-pickle.dump([], open("error_log.txt", "wb"))
-#Bot.reset_data(data="posts")
-#Bot.reset_data(data="storys")
-
-Bot.check_storys()
-Bot.check_posts(name="jetsetsam_")
-Bot.search_hashtag("free", mode="collect")

@@ -123,6 +123,5 @@ giveaway
 sweepstakes
 contestalert
 contestentry
-winit
 freebie
 winitwednesday
