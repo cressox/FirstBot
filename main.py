@@ -1,6 +1,6 @@
 from Bot import *
 
-Bot = InstagramBot("klaus_muenster", "#8:D~Tqx#:Gux&t")
+Bot = InstagramBot("usrname", "pw")
 Bot.login()
 
 pickle.dump([], open("error_log.txt", "wb"))
