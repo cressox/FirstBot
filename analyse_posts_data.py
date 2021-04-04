@@ -11,11 +11,12 @@ def key_words(sentence):
 
 post_data = pickle.load(open("posts.json", "rb"))
 
-for name, posts in post_data.items():
-    # beschreibungen in sätzen #
-    for num, post in posts.items():
-        post = post[1].split(".")
-        for i in range(len(post)):
-            if key_words(post[i]):
-            # key word im satz gefunden #
-                print(f"{name}: {post[i]}.")
+def analyze():
+    for name, posts in post_data.items():
+        # beschreibungen in sätzen #
+        for num, post in posts.items():
+            post = post[1].split(".")
+            for i in range(len(post)):
+                if key_words(post[i]):
+                # key word im satz gefunden #
+                    print(f"{name}: {post[i]}.")
