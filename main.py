@@ -1,3 +1,12 @@
+import pkg_resources
+import os
+
+# check if the requirements are satifiered
+try:
+    pkg_resources.require(open("./requirements.txt", "r").readlines())
+except:
+    os.system("python -m pip install -r requirements.txt")
+
 from Bot import *
 
 Bot = InstagramBot("usrname", "pw")
