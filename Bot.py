@@ -12,10 +12,12 @@ class InstagramBot:
         self.username = username
         self.password = password
         
-        self.browser = webdriver.Chrome("./chromedriver.exe")
+        self.browser = webdriver.Chrome("./chromedriver")
         
     def __str__(self):
         return f"{self.username}"
+
+
 
     def wait_for_object(self, type, string):
         return WebDriverWait(self.browser, 3).until(EC.presence_of_element_located((type, string)))
