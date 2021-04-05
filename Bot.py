@@ -5,15 +5,21 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
 import time, pickle
-
+import os
 
 class InstagramBot:
     def __init__(self, username, password):
         self.username = username
         self.password = password
-        
-        self.browser = webdriver.Chrome("./chromedriver")
-        
+
+    if "chromedriver" in os.listdir("."):
+        self.browser = webdriver.Chrome("chromedriver")
+    elif "chromedriver.exe" in os.listdir("."):
+        self.browser = webdriver.Chrome("chromedriver.exe")
+    else:
+        print("cant find chromedriver or chromedriver.exe")
+        exit(1)
+
     def __str__(self):
         return f"{self.username}"
 
