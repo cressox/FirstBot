@@ -12,13 +12,13 @@ class InstagramBot:
         self.username = username
         self.password = password
 
-    if "chromedriver" in os.listdir("."):
-        self.browser = webdriver.Chrome("chromedriver")
-    elif "chromedriver.exe" in os.listdir("."):
-        self.browser = webdriver.Chrome("chromedriver.exe")
-    else:
-        print("cant find chromedriver or chromedriver.exe")
-        exit(1)
+        if "chromedriver" in os.listdir("."):
+            self.browser = webdriver.Chrome("chromedriver")
+        elif "chromedriver.exe" in os.listdir("."):
+            self.browser = webdriver.Chrome("chromedriver.exe")
+        else:
+            print("cant find chromedriver or chromedriver.exe")
+            exit(1)
 
     def __str__(self):
         return f"{self.username}"
